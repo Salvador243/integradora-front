@@ -1,0 +1,36 @@
+{
+	"editor.insertSpaces": false,
+	"editor.tabSize": 2,
+	"editor.detectIndentation": false,
+	"files.insertFinalNewline": true,
+	"files.trimTrailingWhitespace": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"eslint.validate": [
+		"javascript",
+		"typescript",
+		"html"
+	],
+	"[typescript]": {
+		"editor.insertSpaces": false,
+		"editor.tabSize": 2,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascript]": {
+		"editor.insertSpaces": false,
+		"editor.tabSize": 2
+	},
+	"[html]": {
+		"editor.insertSpaces": false,
+		"editor.tabSize": 2
+	},
+	"[css]": {
+		"editor.insertSpaces": false,
+		"editor.tabSize": 2
+	},
+	"[json]": {
+		"editor.insertSpaces": false,
+		"editor.tabSize": 2
+	}
+}

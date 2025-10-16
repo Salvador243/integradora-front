@@ -1,0 +1,14 @@
+/* Tailwind CSS v4 imports */
+@import "tailwindcss";
+
+/* PrimeIcons */
+@import 'primeicons/primeicons.css';
+
+/* Define layers for PrimeNG compatibility */
+@layer base, primeng, utilities;
+
+/* Global styles */
+body {
+	margin: 0;
+	padding: 0;
+}

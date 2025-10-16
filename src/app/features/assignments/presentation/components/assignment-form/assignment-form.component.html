@@ -1,0 +1,184 @@
+<section class="p-4">
+	<p-toast />
+	<form [formGroup]="formAssignment" (ngSubmit)="onSubmit()">
+		<!-- Información General -->
+		<div class="mb-6">
+			<h3 class="text-lg font-semibold mb-4 text-surface-700 border-b pb-2">
+				Información General
+			</h3>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<!-- Instancia de Herramienta -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Instancia de Herramienta *
+					</label>
+					<p-select
+						formControlName="toolInstanceId"
+						[options]="filteredToolInstances()"
+						optionLabel="serialCode"
+						optionValue="uuid"
+						placeholder="Seleccionar herramienta"
+						[invalid]="isFieldInvalid('toolInstanceId')"
+						[filter]="true"
+						filterPlaceholder="Buscar por código serial..."
+						(onFilter)="filterToolInstances($event)"
+						[showClear]="true"
+						styleClass="w-full"
+					>
+						<ng-template let-tool pTemplate="item">
+							<div class="flex flex-col">
+								<span class="font-semibold">{{ tool.serialCode }}</span>
+								<small class="text-surface-500">{{ tool.toolTypeName || 'Sin tipo' }}</small>
+							</div>
+						</ng-template>
+					</p-select>
+					@if(getFieldError('toolInstanceId')) {
+					<small class="p-error block mt-1">{{ getFieldError('toolInstanceId') }}</small>
+					}
+				</div>
+
+				<!-- Usuario Asignado -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Usuario Asignado *
+					</label>
+					<input
+						class="w-full"
+						formControlName="userAssigned"
+						pInputText
+						placeholder="Nombre del usuario"
+						autocomplete="on"
+						[invalid]="isFieldInvalid('userAssigned')"
+					/>
+					@if(getFieldError('userAssigned')) {
+					<small class="p-error block mt-1">{{ getFieldError('userAssigned') }}</small>
+					}
+				</div>
+			</div>
+		</div>
+
+		<!-- Datos de Salida -->
+		<div class="mb-6">
+			<h3 class="text-lg font-semibold mb-4 text-surface-700 border-b pb-2 flex items-center gap-2">
+				<i class="pi pi-arrow-circle-right text-info"></i>
+				Datos de Salida
+			</h3>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<!-- Fecha/Hora Salida -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Fecha y Hora de Salida *
+					</label>
+					<p-datepicker
+						formControlName="fechaSalida"
+						[showTime]="true"
+						[showClear]="true"
+						[showSeconds]="false"
+						dateFormat="dd/mm/yy"
+						[invalid]="isFieldInvalid('fechaSalida')"
+						styleClass="w-full"
+						placeholder="dd/mm/aaaa hh:mm"
+					/>
+					@if(getFieldError('fechaSalida')) {
+					<small class="p-error block mt-1">{{ getFieldError('fechaSalida') }}</small>
+					}
+				</div>
+
+				<!-- Condición de Salida -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Condición de Salida *
+					</label>
+					<p-select
+						formControlName="conditionIdSalida"
+						[options]="conditions()"
+						optionLabel="description"
+						optionValue="uuid"
+						placeholder="Seleccionar condición"
+						[invalid]="isFieldInvalid('conditionIdSalida')"
+						[showClear]="true"
+						styleClass="w-full"
+					>
+						<ng-template let-condition pTemplate="item">
+							<div class="flex flex-col">
+								<span class="font-semibold">{{ condition.description }}</span>
+								<small class="text-surface-500">{{ condition.code }}</small>
+							</div>
+						</ng-template>
+					</p-select>
+					@if(getFieldError('conditionIdSalida')) {
+					<small class="p-error block mt-1">{{ getFieldError('conditionIdSalida') }}</small>
+					}
+				</div>
+			</div>
+		</div>
+
+		<!-- Datos de Regreso (Opcional) -->
+		<div class="mb-6">
+			<h3 class="text-lg font-semibold mb-4 text-surface-700 border-b pb-2 flex items-center gap-2">
+				<i class="pi pi-arrow-circle-left text-success"></i>
+				Datos de Regreso <span class="text-sm font-normal text-surface-500">(Opcional)</span>
+			</h3>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<!-- Fecha/Hora Regreso -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Fecha y Hora de Regreso
+					</label>
+					<p-datepicker
+						formControlName="fechaRegreso"
+						[showTime]="true"
+						[showClear]="true"
+						[showSeconds]="false"
+						dateFormat="dd/mm/yy"
+						styleClass="w-full"
+						placeholder="dd/mm/aaaa hh:mm"
+					/>
+				</div>
+
+				<!-- Condición de Regreso -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Condición de Regreso
+					</label>
+					<p-select
+						formControlName="conditionIdRegreso"
+						[options]="conditions()"
+						optionLabel="description"
+						optionValue="uuid"
+						placeholder="Seleccionar condición"
+						[showClear]="true"
+						styleClass="w-full"
+					>
+						<ng-template let-condition pTemplate="item">
+							<div class="flex flex-col">
+								<span class="font-semibold">{{ condition.description }}</span>
+								<small class="text-surface-500">{{ condition.code }}</small>
+							</div>
+						</ng-template>
+					</p-select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Acciones -->
+		<div class="flex justify-end gap-3 pt-4 border-t">
+			<p-button
+				label="Limpiar"
+				severity="secondary"
+				type="button"
+				[outlined]="true"
+				icon="pi pi-times"
+				(onClick)="onReset()"
+			/>
+			<p-button
+				[label]="uuid ? 'Actualizar Asignación' : 'Guardar Asignación'"
+				severity="info"
+				type="submit"
+				[disabled]="!formAssignment.valid || isLoading()"
+				[loading]="isLoading()"
+				[icon]="uuid ? 'pi pi-check' : 'pi pi-save'"
+			/>
+		</div>
+	</form>
+</section>

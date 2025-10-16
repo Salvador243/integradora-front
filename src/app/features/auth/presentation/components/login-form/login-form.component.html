@@ -1,0 +1,42 @@
+<form class="grid gap-y-4" [formGroup]="formLogin" (ngSubmit)="onSubmit()">
+	<div class="flex flex-col gap-6 w-full">
+		<div class="flex flex-col gap-2 w-full">
+			<label for="email1" class="text-surface-900 dark:text-surface-0 font-medium leading-normal"
+				>Correo electronico</label
+			>
+			<input
+				pInputText
+				formControlName="email"
+				id="email1"
+				type="text"
+				placeholder="Ingrese su correo electronico"
+				class="w-full px-3 py-2 shadow-sm rounded-lg"
+				[class.ng-invalid]="getFieldError('email')"
+			/>
+			@if(getFieldError('email')) {
+				<small class="text-red-500">{{ getFieldError('email') }}</small>
+			}
+		</div>
+		<div class="flex flex-col gap-2 w-full">
+			<label for="password1" class="text-surface-900 dark:text-surface-0 font-medium leading-normal"
+				>Contraseña</label
+			>
+			<input
+				pInputText
+				formControlName="password"
+				id="password1"
+				type="password"
+				placeholder="Contraseña"
+				class="w-full px-3 py-2 shadow-sm rounded-lg"
+				[class.ng-invalid]="getFieldError('password')"
+			/>
+			@if(getFieldError('password')) {
+				<small class="text-red-500">{{ getFieldError('password') }}</small>
+			}
+		</div>
+	</div>
+	<button type="submit" pButton class="w-full py-2 rounded-lg flex justify-center items-center gap-2">
+		<i pButtonIcon class="pi pi-user text-base! leading-normal!"></i>
+		<span pButtonLabel>Inicar sesion</span>
+	</button>
+</form>

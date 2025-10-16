@@ -1,0 +1,54 @@
+<section class="rounded-lg overflow-hidden border border-surface-200">
+	<p-table 
+		[value]="categories" 
+		styleClass="p-datatable-sm p-datatable-striped"
+		[tableStyle]="{'min-width': '50rem'}"
+	>
+		<ng-template #header>
+			<tr>
+				<th class="bg-surface-50">Código</th>
+				<th class="bg-surface-50">Nombre</th>
+				<th class="bg-surface-50">Estado</th>
+				<th class="bg-surface-50 text-center" style="width: 100px">Acciones</th>
+			</tr>
+		</ng-template>
+		<ng-template #body let-categorie>
+			<tr class="hover:bg-surface-50 transition-colors">
+				<td>
+					<p-tag severity="info" [value]="categorie.code" />
+				</td>
+				<td>
+					<span class="font-medium text-surface-700">{{ categorie.name }}</span>
+				</td>
+				<td>
+					<p-tag 
+						[severity]="categorie.status ? 'success' : 'danger'" 
+						[value]="categorie.status ? 'Activo' : 'Inactivo'" 
+					/>
+				</td>
+				<td>
+					<div class="flex justify-center gap-1">
+						<button
+							type="button"
+							class="p-2 rounded-full hover:bg-info-100 text-info transition-colors cursor-pointer border-0 bg-transparent"
+							(click)="fetchCategorieByUuid(categorie.uuid)"
+							pTooltip="Editar categoría"
+							tooltipPosition="top"
+						>
+							<i class="pi pi-pencil text-sm"></i>
+						</button>
+						<button
+							type="button"
+							class="p-2 rounded-full hover:bg-danger-100 text-danger transition-colors cursor-pointer border-0 bg-transparent"
+							(click)="onDeleteCategorie(categorie.uuid)"
+							pTooltip="Eliminar categoría"
+							tooltipPosition="top"
+						>
+							<i class="pi pi-trash text-sm"></i>
+						</button>
+					</div>
+				</td>
+			</tr>
+		</ng-template>
+	</p-table>
+</section>

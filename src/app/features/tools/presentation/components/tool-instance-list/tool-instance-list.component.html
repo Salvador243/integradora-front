@@ -1,0 +1,86 @@
+<section class="card">
+	<div class="flex justify-between items-center mb-4">
+		<h2 class="text-xl font-bold text-surface-700">Instancias de Herramientas</h2>
+		<p-button
+			label="Nueva Instancia"
+			icon="pi pi-plus"
+			severity="success"
+			(onClick)="onCreateNew()"
+		/>
+	</div>
+
+	<div class="rounded-lg overflow-hidden border border-surface-200">
+		<p-table
+		[value]="toolInstances"
+		styleClass="p-datatable-sm p-datatable-striped"
+		[tableStyle]="{'min-width': '50rem'}"
+	>
+		<ng-template #header>
+			<tr>
+				<th class="bg-surface-50">Código Serial</th>
+				<th class="bg-surface-50">Taller</th>
+				<th class="bg-surface-50">Condición</th>
+				<th class="bg-surface-50">Estado</th>
+				<th class="bg-surface-50">Último Usuario</th>
+				<th class="bg-surface-50 text-center" style="width: 100px">Acciones</th>
+			</tr>
+		</ng-template>
+		<ng-template #body let-instance>
+			<tr class="hover:bg-surface-50 transition-colors">
+				<td>
+					<p-tag severity="info" [value]="instance.serialCode" />
+				</td>
+				<td>
+					<span class="text-surface-700">{{ instance.garageName || instance.garageId }}</span>
+				</td>
+				<td>
+					<span class="text-surface-700">{{ instance.conditionDescription || instance.conditionId }}</span>
+				</td>
+				<td>
+					<p-tag
+						[severity]="
+							instance.status === 'available' ? 'success' :
+							instance.status === 'assigned' ? 'info' :
+							instance.status === 'maintenance' ? 'warn' : 'danger'
+						"
+						[value]="instance.status"
+					/>
+				</td>
+				<td>
+					<span class="text-surface-600">{{ instance.lastAssignedUser || 'N/A' }}</span>
+				</td>
+				<td>
+					<div class="flex justify-center gap-1">
+						<button
+							type="button"
+							class="p-2 rounded-full hover:bg-info-100 text-info transition-colors cursor-pointer border-0 bg-transparent"
+							(click)="fetchToolInstanceByUuid(instance.uuid)"
+							pTooltip="Editar instancia"
+							tooltipPosition="top"
+						>
+							<i class="pi pi-pencil text-sm"></i>
+						</button>
+						<button
+							type="button"
+							class="p-2 rounded-full hover:bg-danger-100 text-danger transition-colors cursor-pointer border-0 bg-transparent"
+							(click)="onDeleteToolInstance(instance.uuid)"
+							pTooltip="Eliminar instancia"
+							tooltipPosition="top"
+						>
+							<i class="pi pi-trash text-sm"></i>
+						</button>
+					</div>
+				</td>
+			</tr>
+		</ng-template>
+		<ng-template #emptymessage>
+			<tr>
+				<td colspan="6" class="text-center py-8 text-surface-500">
+					<i class="pi pi-inbox text-4xl mb-3 block"></i>
+					<p>No hay instancias registradas para este tipo de herramienta.</p>
+				</td>
+			</tr>
+		</ng-template>
+	</p-table>
+	</div>
+</section>

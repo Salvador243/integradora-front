@@ -1,0 +1,16 @@
+// Estilos específicos para el componente de registro
+// Siguiendo la misma filosofía que el login layout
+
+.ng-invalid.ng-touched {
+	border-color: #ef4444;
+}
+
+.text-red-500 {
+	color: #ef4444;
+}
+
+// Estilos adicionales si son necesarios
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

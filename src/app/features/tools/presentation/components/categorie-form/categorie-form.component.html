@@ -1,0 +1,79 @@
+<section class="p-4">
+  <form [formGroup]="formCategorie" (ngSubmit)="onSubmit()">
+    <!-- Información de la Categoría -->
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-4 text-surface-700 border-b pb-2">
+        Información de la Categoría
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Código -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-surface-600">
+            Código *
+          </label>
+          <input
+            class="w-full"
+            formControlName="code"
+            pInputText
+            placeholder="Ej: CAT-001"
+            autocomplete="on"
+            [invalid]="isFieldInvalid('code')"
+          />
+          @if(getFieldError('code')) {
+          <small class="p-error block mt-1">{{ getFieldError('code') }}</small>
+          }
+        </div>
+
+        <!-- Nombre -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-surface-600">
+            Nombre *
+          </label>
+          <input
+            class="w-full"
+            formControlName="name"
+            pInputText
+            placeholder="Nombre de la categoría"
+            autocomplete="on"
+            [invalid]="isFieldInvalid('name')"
+          />
+          @if(getFieldError('name')) {
+          <small class="p-error block mt-1">{{ getFieldError('name') }}</small>
+          }
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block text-sm font-medium mb-2 text-surface-600">
+            Estado
+          </label>
+          <div class="flex items-center gap-3 h-[42px]">
+            <p-toggleswitch formControlName="status" />
+            <span class="text-sm text-surface-600">
+              {{ formCategorie.get('status')?.value ? 'Activo' : 'Inactivo' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="flex justify-end gap-3 pt-4 border-t">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        type="button"
+        [outlined]="true"
+        icon="pi pi-times"
+        (onClick)="onReset()"
+      />
+      <p-button
+        label="Guardar"
+        severity="info"
+        type="submit"
+        icon="pi pi-save"
+        [disabled]="!formCategorie.valid"
+      />
+    </div>
+  </form>
+</section>
