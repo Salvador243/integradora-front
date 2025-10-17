@@ -5,13 +5,18 @@ import { MessageService } from 'primeng/api';
 import PRIMENG_IMPORTS from '../../provider/primeng.components';
 import { ToolHistory } from '../../../domain/entities/tool-history.entity';
 import { GetToolHistoryUseCase } from '../../../application/use-cases/tool-history/get-tool-history.use-case';
+import { infrastructureProviders } from '../../../infrastructure/di/provider';
 
 @Component({
 	selector: 'app-tool-history',
 	standalone: true,
 	imports: [PRIMENG_IMPORTS, CommonModule],
 	templateUrl: './tool-history.component.html',
-	providers: [MessageService],
+	providers: [
+		MessageService,
+		GetToolHistoryUseCase,
+		...infrastructureProviders,
+	],
 })
 export class ToolHistoryComponent implements OnInit {
 	private readonly route = inject(ActivatedRoute);
