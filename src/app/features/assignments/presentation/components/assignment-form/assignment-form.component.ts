@@ -33,6 +33,7 @@ export class AssignmentFormComponent implements OnInit {
 	private readonly assignmentStateService = inject(AssignmentStateService);
 
 	public uuid: string | undefined = undefined;
+	private isLoadingAssignment = false; // Bandera para evitar recargas durante edición
 
 	public formAssignment!: FormGroup;
 	public conditions = signal<Condition[]>([]);
@@ -53,10 +54,14 @@ export class AssignmentFormComponent implements OnInit {
 
 	constructor() {
 		effect(() => {
-			this.uuid = undefined;
 			const selectedAssignment = this.assignmentStateService.assignmentSelected();
 			if (!this.formAssignment) return;
+			
+			// Si ya estamos cargando una asignación, no hacer nada
+			if (this.isLoadingAssignment) return;
+			
 			if (!selectedAssignment) {
+				this.uuid = undefined;
 				this.formAssignment.reset({
 					toolInstanceId: '',
 					userAssigned: '',
@@ -70,17 +75,28 @@ export class AssignmentFormComponent implements OnInit {
 				return;
 			}
 
+			// Marcar que estamos cargando
+			this.isLoadingAssignment = true;
 			this.uuid = selectedAssignment.uuid;
-			this.formAssignment.patchValue({
-				toolInstanceId: selectedAssignment.toolInstance.uuid,
-				userAssigned: selectedAssignment.userAssigned,
-				fechaSalida: selectedAssignment.fechaSalida ? new Date(selectedAssignment.fechaSalida) : null,
-				conditionIdSalida: selectedAssignment.conditionSalida.uuid,
-				fechaRegreso: selectedAssignment.fechaRegreso ? new Date(selectedAssignment.fechaRegreso) : null,
-				conditionIdRegreso: selectedAssignment.conditionRegreso?.uuid || null,
-				status: selectedAssignment.status,
-				tipoEvento: (selectedAssignment as any).tipoEvento || null,
-			});
+			
+			// Usar setTimeout para evitar conflictos con el ciclo de detección de cambios
+			setTimeout(() => {
+				this.formAssignment.patchValue({
+					toolInstanceId: selectedAssignment.toolInstance.uuid,
+					userAssigned: selectedAssignment.userAssigned,
+					fechaSalida: selectedAssignment.fechaSalida ? new Date(selectedAssignment.fechaSalida) : null,
+					conditionIdSalida: selectedAssignment.conditionSalida.uuid,
+					fechaRegreso: selectedAssignment.fechaRegreso ? new Date(selectedAssignment.fechaRegreso) : null,
+					conditionIdRegreso: selectedAssignment.conditionRegreso?.uuid || null,
+					status: selectedAssignment.status,
+					tipoEvento: (selectedAssignment as any).tipoEvento || null,
+				}, { emitEvent: false }); // No emitir eventos para evitar loops
+				
+				// Desmarcar después de un momento
+				setTimeout(() => {
+					this.isLoadingAssignment = false;
+				}, 100);
+			}, 0);
 		});
 	}
 
@@ -211,6 +227,7 @@ export class AssignmentFormComponent implements OnInit {
 	}
 
 	public onReset(): void {
+		this.isLoadingAssignment = false; // Resetear bandera
 		this.formAssignment.reset({
 			toolInstanceId: '',
 			userAssigned: '',
