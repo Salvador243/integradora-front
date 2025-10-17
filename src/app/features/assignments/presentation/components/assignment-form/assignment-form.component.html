@@ -119,7 +119,7 @@
 				<i class="pi pi-arrow-circle-left text-success"></i>
 				Datos de Regreso <span class="text-sm font-normal text-surface-500">(Opcional)</span>
 			</h3>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 				<!-- Fecha/Hora Regreso -->
 				<div>
 					<label class="block text-sm font-medium mb-2 text-surface-600">
@@ -157,6 +157,22 @@
 							</div>
 						</ng-template>
 					</p-select>
+				</div>
+
+				<!-- Tipo de Evento -->
+				<div>
+					<label class="block text-sm font-medium mb-2 text-surface-600">
+						Tipo de Evento
+					</label>
+					<p-select
+						formControlName="tipoEvento"
+						[options]="tipoEventoOptions"
+						optionLabel="label"
+						optionValue="value"
+						placeholder="Seleccionar tipo"
+						[showClear]="true"
+						styleClass="w-full"
+					/>
 				</div>
 			</div>
 		</div>

@@ -40,6 +40,14 @@ export class AssignmentFormComponent implements OnInit {
 	public filteredToolInstances = signal<ToolInstance[]>([]);
 	public isLoading = signal(false);
 
+	// Opciones para tipo_evento
+	public tipoEventoOptions = [
+		{ label: 'Asignado', value: 'assigned' },
+		{ label: 'Devuelto', value: 'returned' },
+		{ label: 'Mantenimiento', value: 'maintenance' },
+		{ label: 'Transferido', value: 'transferred' },
+	];
+
 	@Output()
 	changeTab = new EventEmitter<string>();
 
@@ -49,7 +57,16 @@ export class AssignmentFormComponent implements OnInit {
 			const selectedAssignment = this.assignmentStateService.assignmentSelected();
 			if (!this.formAssignment) return;
 			if (!selectedAssignment) {
-				this.formAssignment.reset({ status: 'open' });
+				this.formAssignment.reset({
+					toolInstanceId: '',
+					userAssigned: '',
+					fechaSalida: '',
+					conditionIdSalida: '',
+					fechaRegreso: null,
+					conditionIdRegreso: null,
+					status: 'open',
+					tipoEvento: null,
+				});
 				return;
 			}
 
@@ -62,6 +79,7 @@ export class AssignmentFormComponent implements OnInit {
 				fechaRegreso: selectedAssignment.fechaRegreso ? new Date(selectedAssignment.fechaRegreso) : null,
 				conditionIdRegreso: selectedAssignment.conditionRegreso?.uuid || null,
 				status: selectedAssignment.status,
+				tipoEvento: (selectedAssignment as any).tipoEvento || null,
 			});
 		});
 	}
@@ -81,6 +99,7 @@ export class AssignmentFormComponent implements OnInit {
 			fechaRegreso: new FormControl(null),
 			conditionIdRegreso: new FormControl(null),
 			status: new FormControl('open', [Validators.required]),
+			tipoEvento: new FormControl(null), // Campo opcional
 		});
 	}
 
@@ -155,7 +174,7 @@ export class AssignmentFormComponent implements OnInit {
 		this.isLoading.set(true);
 		try {
 			const formValue = this.formAssignment.value;
-			const payload = {
+			const payload: any = {
 				toolInstanceId: formValue.toolInstanceId,
 				userAssigned: formValue.userAssigned,
 				fechaSalida: formValue.fechaSalida ? new Date(formValue.fechaSalida).toISOString() : '',
@@ -164,6 +183,11 @@ export class AssignmentFormComponent implements OnInit {
 				conditionIdRegreso: formValue.conditionIdRegreso || null,
 				status: formValue.status,
 			};
+
+			// Agregar tipo_evento solo si tiene valor
+			if (formValue.tipoEvento) {
+				payload.tipo_evento = formValue.tipoEvento;
+			}
 
 			await this.assignmentStateService.saveAssignment(payload, this.uuid);
 
@@ -187,7 +211,16 @@ export class AssignmentFormComponent implements OnInit {
 	}
 
 	public onReset(): void {
-		this.formAssignment.reset({ status: 'open' });
+		this.formAssignment.reset({
+			toolInstanceId: '',
+			userAssigned: '',
+			fechaSalida: '',
+			conditionIdSalida: '',
+			fechaRegreso: null,
+			conditionIdRegreso: null,
+			status: 'open',
+			tipoEvento: null,
+		});
 		this.assignmentStateService.clearSelection();
 		this.uuid = undefined;
 	}
