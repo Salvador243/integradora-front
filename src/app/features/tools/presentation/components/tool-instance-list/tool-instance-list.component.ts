@@ -1,5 +1,5 @@
 import { Component, effect, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import PRIMENG_IMPORTS from '../../provider/primeng.components';
 import { ToolInstance } from '../../../domain/entities/tool-instance.entity';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ import { ToolInstanceStateService } from '../../services/tool-instance-state.ser
 export class ToolInstanceListComponent implements OnInit {
 	private readonly toolInstanceStateService = inject(ToolInstanceStateService);
 	private readonly route = inject(ActivatedRoute);
+	private readonly router = inject(Router);
 
 	public toolTypeId: string = '';
 	public toolInstances: ToolInstance[] = [];
@@ -55,5 +56,9 @@ export class ToolInstanceListComponent implements OnInit {
 	public onCreateNew(): void {
 		this.toolInstanceStateService.clearSelection();
 		this.changeTab.emit('form');
+	}
+
+	public viewHistory(instanceId: string, serialCode: string): void {
+		this.router.navigate(['/admin/history', instanceId, serialCode]);
 	}
 }

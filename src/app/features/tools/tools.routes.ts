@@ -12,6 +12,11 @@ export const toolsRoutes: Routes = [
 			import('./presentation/layouts/tool-instances/tool-instances.layout').then(m => m.ToolInstancesLayoutComponent),
 	},
 	{
+		path: 'history/:instanceId/:serialCode',
+		loadComponent: () =>
+			import('./presentation/components/tool-history/tool-history.component').then(m => m.ToolHistoryComponent),
+	},
+	{
 		path: 'categories',
 		loadComponent: () =>
 			import('./presentation/layouts/categories/categories.layout').then((m) => m.CategoriesLayoutComponent),

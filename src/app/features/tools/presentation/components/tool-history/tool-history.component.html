@@ -1,0 +1,92 @@
+<section class="p-4">
+	<p-toast />
+	
+	<!-- Header -->
+	<div class="flex items-center justify-between mb-6">
+		<div class="flex items-center gap-3">
+			<button
+				type="button"
+				class="p-2 rounded-full hover:bg-surface-100 transition-colors cursor-pointer border-0 bg-transparent"
+				(click)="goBack()"
+				pTooltip="Volver"
+				tooltipPosition="top"
+			>
+				<i class="pi pi-arrow-left text-xl text-surface-600"></i>
+			</button>
+			<div>
+				<h2 class="text-2xl font-bold text-surface-700">Historial de Instancia</h2>
+				<p class="text-surface-500">Código Serial: <span class="font-semibold">{{ serialCode }}</span></p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Tabla de Historial -->
+	<div class="rounded-lg overflow-hidden border border-surface-200">
+		<p-table 
+			[value]="toolHistory()" 
+			styleClass="p-datatable-sm p-datatable-striped"
+			[tableStyle]="{'min-width': '50rem'}"
+			[loading]="isLoading()"
+		>
+			<ng-template #header>
+				<tr>
+					<th class="bg-surface-50">Fecha Evento</th>
+					<th class="bg-surface-50">Tipo Evento</th>
+					<th class="bg-surface-50">Usuario</th>
+					<th class="bg-surface-50">Taller</th>
+					<th class="bg-surface-50">Condición</th>
+					<th class="bg-surface-50">Herramienta</th>
+				</tr>
+			</ng-template>
+			<ng-template #body let-history>
+				<tr class="hover:bg-surface-50 transition-colors">
+					<td>
+						<div class="flex flex-col">
+							<span class="font-medium text-surface-700">
+								{{ history.fechaEvento | date: 'dd/MM/yyyy' }}
+							</span>
+							<small class="text-surface-500">
+								{{ history.fechaEvento | date: 'HH:mm:ss' }}
+							</small>
+						</div>
+					</td>
+					<td>
+						<p-tag 
+							[severity]="getTipoEventoSeverity(history.tipoEvento)" 
+							[value]="getTipoEventoLabel(history.tipoEvento)" 
+						/>
+					</td>
+					<td>
+						<span class="font-medium text-surface-700">{{ history.userAssigned }}</span>
+					</td>
+					<td>
+						<div class="flex flex-col">
+							<span class="font-medium text-surface-700">{{ history.garageName }}</span>
+							<small class="text-surface-500">{{ history.garageCode }}</small>
+						</div>
+					</td>
+					<td>
+						<div class="flex flex-col">
+							<span class="font-medium text-surface-700">{{ history.conditionDescription }}</span>
+							<small class="text-surface-500">{{ history.conditionCode }}</small>
+						</div>
+					</td>
+					<td>
+						<div class="flex flex-col">
+							<span class="font-medium text-surface-700">{{ history.toolTypeName }}</span>
+							<small class="text-surface-500">{{ history.toolTypeCode }}</small>
+						</div>
+					</td>
+				</tr>
+			</ng-template>
+			<ng-template #emptymessage>
+				<tr>
+					<td colspan="6" class="text-center py-8 text-surface-500">
+						<i class="pi pi-history text-4xl mb-3 block"></i>
+						<p>No hay historial registrado para esta instancia.</p>
+					</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</div>
+</section>

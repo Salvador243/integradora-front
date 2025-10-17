@@ -5,9 +5,12 @@ import { HttpToolRepository } from "../../domain/repositories/http-tool.reposito
 import { ApiToolsRepository } from "../repositories/api-tools.repository";
 import { HttpToolInstanceRepository } from "../../domain/repositories/http-tool-instance.repository";
 import { ApiToolInstanceRepository } from "../repositories/api-tool-instance.repository";
+import { HttpToolHistoryRepository } from "../../domain/repositories/http-tool-history.repository";
+import { ApiToolHistoryRepository } from "../repositories/api-tool-history.repository";
 
 export const infrastructureProviders: Provider[] = [
 	{ provide: HttpCategorieRepository, useClass: ApiCategoriesRepository },
 	{ provide: HttpToolRepository, useClass: ApiToolsRepository },
-	{ provide: HttpToolInstanceRepository, useClass: ApiToolInstanceRepository }
+	{ provide: HttpToolInstanceRepository, useClass: ApiToolInstanceRepository },
+	{ provide: HttpToolHistoryRepository, useClass: ApiToolHistoryRepository }
 ]

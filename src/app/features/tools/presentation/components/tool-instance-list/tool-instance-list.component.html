@@ -22,7 +22,7 @@
 				<th class="bg-surface-50">Condición</th>
 				<th class="bg-surface-50">Estado</th>
 				<th class="bg-surface-50">Último Usuario</th>
-				<th class="bg-surface-50 text-center" style="width: 100px">Acciones</th>
+				<th class="bg-surface-50 text-center" style="width: 140px">Acciones</th>
 			</tr>
 		</ng-template>
 		<ng-template #body let-instance>
@@ -51,6 +51,15 @@
 				</td>
 				<td>
 					<div class="flex justify-center gap-1">
+						<button
+							type="button"
+							class="p-2 rounded-full hover:bg-secondary-100 text-secondary transition-colors cursor-pointer border-0 bg-transparent"
+							(click)="viewHistory(instance.uuid, instance.serialCode)"
+							pTooltip="Ver historial"
+							tooltipPosition="top"
+						>
+							<i class="pi pi-history text-sm"></i>
+						</button>
 						<button
 							type="button"
 							class="p-2 rounded-full hover:bg-info-100 text-info transition-colors cursor-pointer border-0 bg-transparent"
