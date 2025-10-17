@@ -56,10 +56,10 @@ export class AssignmentFormComponent implements OnInit {
 		effect(() => {
 			const selectedAssignment = this.assignmentStateService.assignmentSelected();
 			if (!this.formAssignment) return;
-			
+
 			// Si ya estamos cargando una asignación, no hacer nada
 			if (this.isLoadingAssignment) return;
-			
+
 			if (!selectedAssignment) {
 				this.uuid = undefined;
 				this.formAssignment.reset({
@@ -78,7 +78,7 @@ export class AssignmentFormComponent implements OnInit {
 			// Marcar que estamos cargando
 			this.isLoadingAssignment = true;
 			this.uuid = selectedAssignment.uuid;
-			
+
 			// Usar setTimeout para evitar conflictos con el ciclo de detección de cambios
 			setTimeout(() => {
 				this.formAssignment.patchValue({
@@ -89,9 +89,9 @@ export class AssignmentFormComponent implements OnInit {
 					fechaRegreso: selectedAssignment.fechaRegreso ? new Date(selectedAssignment.fechaRegreso) : null,
 					conditionIdRegreso: selectedAssignment.conditionRegreso?.uuid || null,
 					status: selectedAssignment.status,
-					tipoEvento: (selectedAssignment as any).tipoEvento || null,
+					tipoEvento: selectedAssignment.tipo_evento || null,
 				}, { emitEvent: false }); // No emitir eventos para evitar loops
-				
+
 				// Desmarcar después de un momento
 				setTimeout(() => {
 					this.isLoadingAssignment = false;

@@ -1,4 +1,5 @@
 export type AssignmentStatus = 'open' | 'closed';
+export type TipoEvento = 'assigned' | 'returned' | 'maintenance' | 'transferred';
 
 export interface Assignment {
 	uuid: string;
@@ -33,6 +34,7 @@ export interface Assignment {
 	// conditionIdSalida: string;
 	// conditionIdRegreso: string | null;
 	status: AssignmentStatus;
+	tipo_evento?: TipoEvento | null;
 	createdAt: string;
 	// Campos opcionales para mostrar en la UI
 	// toolInstanceSerial?: string;
@@ -48,6 +50,7 @@ export interface CreateAssignmentPayload {
 	fechaRegreso?: string | null;
 	conditionIdRegreso?: string | null;
 	status: AssignmentStatus;
+	tipo_evento?: TipoEvento | null;
 }
 
 export interface UpdateAssignmentPayload {
@@ -58,6 +61,7 @@ export interface UpdateAssignmentPayload {
 	conditionIdSalida: string;
 	conditionIdRegreso: string | null;
 	status: AssignmentStatus;
+	tipo_evento?: TipoEvento | null;
 }
 
 // API Responses
