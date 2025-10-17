@@ -8,6 +8,8 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { SelectModule } from 'primeng/select';
+import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
 
 export const PRIMENG_IMPORTS = [
 	TabsModule,
@@ -20,6 +22,8 @@ export const PRIMENG_IMPORTS = [
 	ButtonModule,
 	FileUploadModule,
 	SelectModule,
+	ToastModule,
+	TooltipModule,
 ];
 
 export default PRIMENG_IMPORTS;
