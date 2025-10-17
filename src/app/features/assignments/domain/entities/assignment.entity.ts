@@ -30,16 +30,9 @@ export interface Assignment {
 		description: string;
 		status: boolean
 	} | null;
-
-	// conditionIdSalida: string;
-	// conditionIdRegreso: string | null;
 	status: AssignmentStatus;
 	tipo_evento?: TipoEvento | null;
 	createdAt: string;
-	// Campos opcionales para mostrar en la UI
-	// toolInstanceSerial?: string;
-	// conditionSalidaDescription?: string;
-	// conditionRegresoDescription?: string;
 }
 
 export interface CreateAssignmentPayload {
