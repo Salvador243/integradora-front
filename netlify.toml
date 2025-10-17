@@ -1,0 +1,30 @@
+[build]
+  command = "npm run build"
+  publish = "dist/integradora-front/browser"
+
+# Proxy para Auth API
+[[redirects]]
+  from = "/api/auth/*"
+  to = "http://integradora-auth-env.eba-w9vmduwm.us-east-1.elasticbeanstalk.com/:splat"
+  status = 200
+  force = true
+
+# Proxy para General API
+[[redirects]]
+  from = "/api/general/*"
+  to = "http://integradora-general-env.eba-j27pvcdu.us-east-1.elasticbeanstalk.com/:splat"
+  status = 200
+  force = true
+
+# Proxy para Tools API
+[[redirects]]
+  from = "/api/tools/*"
+  to = "http://integradora-tool-env.eba-czz3xgnq.us-east-1.elasticbeanstalk.com/:splat"
+  status = 200
+  force = true
+
+# Redirigir todas las rutas a index.html para Angular routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
