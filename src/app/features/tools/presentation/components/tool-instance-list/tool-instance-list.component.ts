@@ -59,6 +59,6 @@ export class ToolInstanceListComponent implements OnInit {
 	}
 
 	public viewHistory(instanceId: string, serialCode: string): void {
-		this.router.navigate(['/admin/history', instanceId, serialCode]);
+		this.router.navigate(['/admin/tools/history', instanceId, serialCode]);
 	}
 }
