@@ -40,8 +40,16 @@ export interface GetToolsPayload {
 	limit: number;
 }
 
-export interface GetToolsResponse {
+export interface Category {
+	uuid: string;
+	code: string;
+	name: string;
+	status: boolean;
 	toolTypes: Tool[];
+}
+
+export interface GetToolsResponse {
+	categories: Category[];
 	total: number;
 }
 

@@ -6,6 +6,7 @@ import {
 } from '../entities/tool-instance.entity';
 
 export abstract class HttpToolInstanceRepository {
+	abstract getAllToolInstances(): Promise<{ toolInstances: ToolInstance[]; total: number }>;
 	abstract getToolInstancesByToolType(payload: GetToolInstancesPayload): Promise<{ toolInstances: ToolInstance[]; total: number }>;
 	abstract createToolInstance(payload: CreateToolInstancePayload): Promise<ToolInstance>;
 	abstract getToolInstanceByUuid(uuid: string): Promise<ToolInstance>;

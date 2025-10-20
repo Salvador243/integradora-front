@@ -21,8 +21,17 @@ export class ApiToolInstanceRepository implements HttpToolInstanceRepository {
 
 	constructor(private http: HttpClient) {}
 
-	async getToolInstancesByToolType(payload: GetToolInstancesPayload): Promise<{ toolInstances: ToolInstance[]; total: number }> {
+	async getAllToolInstances(): Promise<{ toolInstances: ToolInstance[]; total: number }> {
 		const url = `${this.baseUrl}/get-all`;
+		const response = await firstValueFrom(this.http.get<ApiGetToolInstancesResponse>(url));
+		if (!response.success) {
+			throw new Error(Array.isArray(response.message) ? response.message.join(', ') : response.message);
+		}
+		return response.data;
+	}
+
+	async getToolInstancesByToolType(payload: GetToolInstancesPayload): Promise<{ toolInstances: ToolInstance[]; total: number }> {
+		const url = `${this.baseUrl}/get-by-tool-type/${payload.toolTypeId}`;
 		const response = await firstValueFrom(this.http.get<ApiGetToolInstancesResponse>(url));
 		if (!response.success) {
 			throw new Error(Array.isArray(response.message) ? response.message.join(', ') : response.message);

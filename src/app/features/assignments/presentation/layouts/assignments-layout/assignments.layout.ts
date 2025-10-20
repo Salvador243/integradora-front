@@ -5,6 +5,7 @@ import { AssignmentFormComponent } from '../../components/assignment-form/assign
 import { FetchConditionsUseCase } from '@general/application/use-cases/fetch-conditions.use-case';
 import { infrastructureProviders } from '@general/infrastructure/di/provider';
 import { FetchToolInstancesUseCase } from '@tools/application/use-cases/tool-instances/fetch-tool-instances.use-case';
+import { FetchAllToolInstancesUseCase } from '@tools/application/use-cases/tool-instances/fetch-all-tool-instances.use-case';
 import { infrastructureProviders as toolInfrastructureProviders } from '@tools/infrastructure/di/provider';
 import { AssignmentStateService } from '../../services/assignment-state.service';
 
@@ -15,10 +16,10 @@ import { AssignmentStateService } from '../../services/assignment-state.service'
 	imports: [PRIMENG_IMPORTS, AssignmentListComponent, AssignmentFormComponent],
 	providers: [
 		FetchToolInstancesUseCase,
+		FetchAllToolInstancesUseCase,
 		FetchConditionsUseCase,
 		...infrastructureProviders,
 		...toolInfrastructureProviders
-
 	],
 })
 export class AssignmentsLayoutComponent {

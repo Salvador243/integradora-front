@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 import { Condition } from '@general/domain/entities/condition.entity';
 import { FetchConditionsUseCase } from '@general/application/use-cases/fetch-conditions.use-case';
 import { ToolInstance } from '@tools/domain/entities/tool-instance.entity';
-import { FetchToolInstancesUseCase } from '@tools/application/use-cases/tool-instances/fetch-tool-instances.use-case';
+import { FetchAllToolInstancesUseCase } from '@tools/application/use-cases/tool-instances/fetch-all-tool-instances.use-case';
 import { CreateAssignmentUseCase } from '../../../domain/usecases/create-assignment.usecase';
 import PRIMENG_IMPORTS from '../../provider/primeng.components';
 import { AssignmentStateService } from '../../services/assignment-state.service';
@@ -27,7 +27,7 @@ import { AssignmentStateService } from '../../services/assignment-state.service'
 export class AssignmentFormComponent implements OnInit {
 	private readonly fb = inject(FormBuilder);
 	private readonly fetchConditionsUseCase = inject(FetchConditionsUseCase);
-	private readonly fetchToolInstancesUseCase = inject(FetchToolInstancesUseCase);
+	private readonly fetchAllToolInstancesUseCase = inject(FetchAllToolInstancesUseCase);
 	private readonly createAssignmentUseCase = inject(CreateAssignmentUseCase);
 	private readonly messageService = inject(MessageService);
 	private readonly assignmentStateService = inject(AssignmentStateService);
@@ -134,7 +134,7 @@ export class AssignmentFormComponent implements OnInit {
 
 	private async loadToolInstances(): Promise<void> {
 		try {
-			const response = await this.fetchToolInstancesUseCase.execute({ toolTypeId: '' });
+			const response = await this.fetchAllToolInstancesUseCase.execute();
 			this.toolInstances.set(response.toolInstances);
 			this.filteredToolInstances.set(response.toolInstances);
 		} catch (error) {

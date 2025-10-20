@@ -6,13 +6,14 @@ import { FetchToolsUseCase } from "@tools/application/use-cases/tools/fetch-tool
 import { GetToolByUuidUseCase } from "@tools/application/use-cases/tools/get-tool-by-uuid.use-case";
 import { FetchCategorieUseCase } from "@tools/application/use-cases/fetch-categorie.use-case";
 import { FetchGaragesUseCase } from "@general/application/use-cases/fetch-garages.use-case";
-import { Tool, CreateToolPayload, UpdateToolPayload, GetToolsPayload } from "@tools/domain/entities/tool.entity";
+import { Tool, CreateToolPayload, UpdateToolPayload, GetToolsPayload, Category } from "@tools/domain/entities/tool.entity";
 import { Categorie } from "@tools/domain/entities/categorie.entity";
 import { Garage } from "@general/domain/entities/garages.entity";
 
 @Injectable()
 export class ToolStateService {
 	private readonly _tools = signal<Tool[]>([]);
+	private readonly _categories = signal<Category[]>([]);
 	private readonly _shouldReload = signal<boolean>(false);
 	private readonly _toolSelected = signal<Tool | undefined>(undefined);
 
@@ -25,6 +26,7 @@ export class ToolStateService {
 	private readonly fetchGaragesUseCase = inject(FetchGaragesUseCase);
 
 	public readonly tools = computed(() => this._tools());
+	public readonly categories = computed(() => this._categories());
 	public readonly shouldReload = computed(() => this._shouldReload());
 	public readonly toolSelected = computed(() => this._toolSelected());
 
@@ -46,8 +48,11 @@ export class ToolStateService {
 
 	async fetchTools(payload: GetToolsPayload): Promise<Tool[]> {
 		const response = await this.fetchToolsUseCase.execute(payload);
-		this._tools.set(response.toolTypes);
-		return response.toolTypes;
+		this._categories.set(response.categories);
+		// Aplanar los toolTypes de todas las categorías
+		const allTools = response.categories.flatMap(category => category.toolTypes);
+		this._tools.set(allTools);
+		return allTools;
 	}
 
 	async fetchToolByUuid(uuid: string): Promise<Tool> {
